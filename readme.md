@@ -14,3 +14,8 @@ DEBUG=node-prome-client:* npm start
 
 http://localhost:3000/hello?name=Chuck%20Norris
 http://localhost:3000/metrics
+
+
+
+
+kalau modular pakai router gimna y?

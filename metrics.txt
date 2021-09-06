@@ -1,0 +1,25 @@
+# HELP my_counter This is my counter
+# TYPE my_counter counter
+my_counter{code="200",path="metrics",version="v001"} 2
+my_counter{code="200",path="hello",version="v001"} 1
+
+# HELP my_process_time process time in miliseconds
+# TYPE my_process_time histogram
+my_process_time_bucket{le="0.005",code="200",path="hello",version="v.0.0.1"} 0
+my_process_time_bucket{le="0.01",code="200",path="hello",version="v.0.0.1"} 0
+my_process_time_bucket{le="0.025",code="200",path="hello",version="v.0.0.1"} 0
+my_process_time_bucket{le="0.05",code="200",path="hello",version="v.0.0.1"} 0
+my_process_time_bucket{le="0.1",code="200",path="hello",version="v.0.0.1"} 0
+my_process_time_bucket{le="0.25",code="200",path="hello",version="v.0.0.1"} 0
+my_process_time_bucket{le="0.5",code="200",path="hello",version="v.0.0.1"} 0
+my_process_time_bucket{le="1",code="200",path="hello",version="v.0.0.1"} 0
+my_process_time_bucket{le="2.5",code="200",path="hello",version="v.0.0.1"} 0
+my_process_time_bucket{le="5",code="200",path="hello",version="v.0.0.1"} 0
+my_process_time_bucket{le="10",code="200",path="hello",version="v.0.0.1"} 0
+my_process_time_bucket{le="+Inf",code="200",path="hello",version="v.0.0.1"} 1
+my_process_time_sum{code="200",path="hello",version="v.0.0.1"} 64
+my_process_time_count{code="200",path="hello",version="v.0.0.1"} 1
+
+# HELP version gauge of version
+# TYPE version gauge
+version{code="200",path="-",version="v001"} 1

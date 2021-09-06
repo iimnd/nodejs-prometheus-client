@@ -5,7 +5,7 @@ const client = require('prom-client');
 const register = new client.Registry();
 
 const c = new client.Counter({
-  name: 'my_counter',
+  name: 'my_counter3',
   help: 'This is my counter',
   labelNames: ['code', 'path', 'version'],
 });

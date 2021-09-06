@@ -3,6 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+
+//add library prom-client
 const client = require('prom-client')
 
 var indexRouter = require('./routes/index');
@@ -14,7 +16,7 @@ var usersRouter = require('./routes/users');
 const register = new client.Registry();
 
 
-
+//add default registry if u want
 // client.collectDefaultMetrics({
 //     app: 'node-application-monitoring-app',
 //     prefix: 'node_',
@@ -23,20 +25,33 @@ const register = new client.Registry();
 //     register
 // });
 
+//define counter
 const c = new client.Counter({
   name: 'my_counter',
   help: 'This is my counter',
   labelNames: ['code', 'path', 'version'],
 });
 
+//define histogram
 const h = new client.Histogram({
 	name: 'my_process_time',
 	help: 'process time in miliseconds',
 	labelNames: ['code', 'path', 'version'],
 });
-// Register the histogram
+
+
+const g = new client.Gauge({
+	name: 'version',
+	help: 'gauge of version',
+	labelNames: ['code', 'path', 'version'],
+});
+
+
+
+// Register metric (histogram & counter)
 register.registerMetric(c);
 register.registerMetric(h);
+register.registerMetric(g);
 
 
 
@@ -57,15 +72,23 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-
+g.set({ code: 200, path:'-', version:'v001' }, 1);
 
 app.get('/hello', (req, res) => {
+  //counter increment
   c.inc({ code: 200, path:'hello', version:'v001' });
+
   var rand = Math.floor(Math.random() * 100) + 1;
+
+  //histogram observe
   h.observe({ code: 200, path:'hello', version:'v.0.0.1' }, rand);
   const { name = 'Anon' } = req.query;
   res.json({ message: `Hello, ${name}!` });
 });
+
+
+
+
 app.get('/metrics', async (req, res) => {
   c.inc({ code: 200, path:'metrics', version:'v001' });
   res.setHeader('Content-Type', register.contentType);
