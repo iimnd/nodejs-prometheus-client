@@ -1,21 +1,24 @@
 var express = require('express');
 var router = express.Router();
-const client = require('prom-client');
-// Create a Registry to register the metrics
-const register = new client.Registry();
 
-const c = new client.Counter({
-  name: 'my_counter3',
-  help: 'This is my counter',
-  labelNames: ['code', 'path', 'version'],
-});
-register.registerMetric(c);
+// import prometheus.js
+var myMetrics = require('../prometheus');
+
+//import metrics variable
+var c = myMetrics.c;
+var g = myMetrics.g;
+var h = myMetrics.h;
+
 
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  c.inc({ code: 200, path:'users', version:'v001' });
-  res.send('respond with a resource');
+  c.inc({ code: 200, method:"GET" ,path:'users', version:'v.0.1.0' });
+  var rand = Math.floor(Math.random() * 100) + 1;
+
+  //histogram observe
+  h.observe({ code: 200, method:'GET', path:'users', version:'v.0.1.0' }, rand);
+  res.send('rini path users');
 });
 
 module.exports = router;
