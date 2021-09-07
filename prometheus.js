@@ -20,6 +20,7 @@ const h = new client.Histogram({
 	name: 'my_process_time',
 	help: 'process time in miliseconds',
 	labelNames: ['code', 'method','path', 'version'],
+	buckets: [0.1, 3, 13, 30, 100, 500],
 });
 
 // define gauge
