@@ -10,9 +10,9 @@ var usersRouter = require('./routes/users');
 var myMetrics = require('./prometheus');
 
 // import variable
-var c = myMetrics.c;
-var g = myMetrics.g;
-var h = myMetrics.h;
+var counter = myMetrics.counter;
+var gauge = myMetrics.gauge;
+var histogram = myMetrics.histogram;
 var register = myMetrics.register;
 
 
@@ -34,16 +34,16 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 //add version gauge
-g.set({ code: 200, method:"GET", path:'-', version:'v.0.1.0' }, 1);
+gauge.set({ code: 200, method:"GET", path:'-', version:'v.0.1.0' }, 1);
 
 app.get('/hello', (req, res) => {
 
   //counter increment
-  c.inc({ code: 200, method:'GET', path:'hello', version:'v.0.1.0' });
+  counter.inc({ code: 200, method:'GET', path:'hello', version:'v.0.1.0' });
   var rand = Math.floor(Math.random() * 100) + 1;
 
   //histogram observe
-  h.observe({ code: 200, method:'GET', path:'hello', version:'v.0.0.1' }, rand);
+  histogram.observe({ code: 200, method:'GET', path:'hello', version:'v.0.0.1' }, rand);
   const { name = 'Anon' } = req.query;
   res.json({ message: `Hello, ${name}!` });
 });

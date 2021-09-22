@@ -8,7 +8,7 @@ const register = new client.Registry();
 
 
 //define counter
-const c = new client.Counter({
+const counter = new client.Counter({
   name: 'my_counter',
   help: 'This is my counter',
   labelNames: ['code', 'method','path', 'version'],
@@ -16,7 +16,7 @@ const c = new client.Counter({
 });
 
 //define histogram
-const h = new client.Histogram({
+const histogram = new client.Histogram({
 	name: 'my_process_time',
 	help: 'process time in miliseconds',
 	labelNames: ['code', 'method','path', 'version'],
@@ -24,7 +24,7 @@ const h = new client.Histogram({
 });
 
 // define gauge
-const g = new client.Gauge({
+const gauge = new client.Gauge({
 	name: 'version',
 	help: 'gauge of version',
 	labelNames: ['code', 'method','path', 'version'],
@@ -33,12 +33,12 @@ const g = new client.Gauge({
 
 
 // Register metric (histogram, counter and gauge)
-register.registerMetric(c);
-register.registerMetric(h);
-register.registerMetric(g);
+register.registerMetric(counter);
+register.registerMetric(histogram);
+register.registerMetric(gauge);
 
 // export variable
-exports.c = c;
-exports.h = h;
-exports.g = g;
+exports.counter = counter;
+exports.histogram = histogram;
+exports.gauge = gauge;
 exports.register = register;
